@@ -2,16 +2,21 @@
   <button :class="`btn ${btnType}`">{{ label }}</button>
 </template>
 
-<script>
-export default {
+<script lang="ts">
+import { defineComponent } from 'vue';
+
+export default defineComponent({
   props: {
-    label: String,
+    label: {
+      type: String,
+      required: true
+    },
     btnType: {
       type: String,
       default: 'btn-primary'
     }
   }
-}
+});
 </script>
 
 <style>
