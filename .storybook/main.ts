@@ -4,7 +4,7 @@ import vue from '@vitejs/plugin-vue';
 import VuetifyPlugin from 'vite-plugin-vuetify';
 
 const config: StorybookConfig = {
-  stories: ['../components/**/*.stories.@(js|jsx|ts|tsx|vue)'],
+  stories: ['../stories/**/*.stories.@(js|jsx|ts|tsx|vue)'],
 
   addons: [
     '@storybook/addon-links',

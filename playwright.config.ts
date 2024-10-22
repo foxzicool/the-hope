@@ -11,16 +11,18 @@ const testDir = defineBddConfig({
 
 const desktopViewport = { width: 1280, height: 720 };
 
+const isCI = !!process.env.CI;
+
 /* See https://playwright.dev/docs/test-configuration. */
 export default defineConfig<ConfigOptions>({
   testDir,
   fullyParallel: true,
 
   /* Fail the build on CI if you accidentally left test.only in the source code. */
-  forbidOnly: !!process.env.CI,
+  forbidOnly: isCI,
 
-  retries: process.env.CI ? 2 : 0,
-  workers: process.env.CI ? 1 : undefined,
+  retries: isCI ? 2 : 0,
+  workers: isCI ? 1 : undefined,
   reporter: 'html',
 
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
@@ -40,13 +42,6 @@ export default defineConfig<ConfigOptions>({
    */
   projects: [
     {
-      name: 'Mobile Safari',
-      use: {
-        ...devices['iPhone 11'],
-        viewport: { width: 414, height: 896 },
-      },
-    },
-    {
       name: 'Google Chrome',
       use: {
         ...devices['Desktop Chrome'],
@@ -54,19 +49,31 @@ export default defineConfig<ConfigOptions>({
         viewport: desktopViewport,
       },
     },
-    {
-      name: 'Desktop Safari',
-      use: {
-        ...devices['Desktop Safari'],
-        viewport: desktopViewport,
-      },
-    },
+
+    ...(isCI // Disable safari in CI; See WEB-82
+      ? []
+      : [
+          {
+            name: 'Mobile Safari',
+            use: {
+              ...devices['iPhone 11'],
+              viewport: { width: 414, height: 896 },
+            },
+          },
+          {
+            name: 'Desktop Safari',
+            use: {
+              ...devices['Desktop Safari'],
+              viewport: desktopViewport,
+            },
+          },
+        ]),
   ],
 
   /* Run your local dev server before starting the tests */
   webServer: {
     command: 'yarn nuxi build && yarn nuxi preview',
     url: 'http://127.0.0.1:3000',
-    reuseExistingServer: !process.env.CI,
+    reuseExistingServer: !isCI,
   },
 });

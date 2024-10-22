@@ -13,10 +13,10 @@ on:
       - '**/README.md'
 
 env:
+  CI: true
   NODE_VERSION: 20.x
   ENV: test
-  # webkit: MacOS & iOS Safari engine
-  E2E_DEVICES: '["chrome", "webkit"]'
+  E2E_DEVICES: '["chrome"]'
 
 jobs:
   typecheck:
