@@ -1,12 +1,33 @@
 import CustomButton from './CustomButton.vue';
-import type { Story } from '@storybook/vue3';
+import type { StoryFn } from '@storybook/vue3';
 
 export default {
   title: 'Components/CustomButton',
   component: CustomButton,
+  argTypes: {
+    size: {
+      control: 'select',
+      options: ['small', 'medium', 'large']
+    },
+    textColor: {
+      control: 'color',
+    },
+    btnColor: {
+      control: 'color',
+    },
+    icon: {
+      control: 'boolean',
+    },
+    hasBorderRadius: {
+      control: 'boolean'
+    },
+    hasUnderline: {
+      control: 'boolean'
+    }
+  }
 };
 
-const Template: Story = (args) => ({
+const Template: StoryFn<typeof CustomButton> = (args) => ({
   components: { CustomButton },
   setup() {
     return { args };
@@ -14,8 +35,14 @@ const Template: Story = (args) => ({
   template: '<CustomButton v-bind="args" />',
 });
 
-export const Primary = Template.bind({});
-Primary.args = {
-  label: 'Press me',
-  btnType: 'btn-primary'
+export const Default = Template.bind({});
+Default.args = {
+  label: 'Button',
+  btnType: 'btn-primary',
+  size: 'medium',
+  textColor: '#FFFFFF',
+  btnColor: 'blue',
+  icon: true,
+  hasBorderRadius: true,
+  hasUnderline: false
 };
