@@ -1,10 +1,11 @@
 import type { StorybookConfig } from '@storybook/vue3-vite';
+import { resolve } from 'node:path';
 import { mergeConfig } from 'vite';
 import vue from '@vitejs/plugin-vue';
 import VuetifyPlugin from 'vite-plugin-vuetify';
 
 const config: StorybookConfig = {
-  stories: ['../components/**/*.stories.@(js|jsx|ts|tsx|vue)'],
+  stories: ['../stories/**/*.stories.@(js|jsx|ts|tsx|vue)'],
 
   addons: [
     '@storybook/addon-links',
@@ -15,13 +16,17 @@ const config: StorybookConfig = {
 
   framework: '@storybook/vue3-vite',
 
-  viteFinal: (config) => mergeConfig(config, {
-    plugins: [vue(), VuetifyPlugin()],
-  }),
+  viteFinal: (config) =>
+    mergeConfig(config, {
+      plugins: [vue(), VuetifyPlugin()],
+      resolve: {
+        alias: { '~': resolve(__dirname, '..') },
+      },
+    }),
 
   docs: {
-    autodocs: true
-  }
+    autodocs: true,
+  },
 };
 
 export default config;

@@ -1,28 +1,15 @@
 <template>
-  <button :class="`btn ${btnType}`">{{ label }}</button>
+  <v-btn>
+    {{ label }}
+  </v-btn>
 </template>
 
-<script>
-export default {
-  props: {
-    label: String,
-    btnType: {
-      type: String,
-      default: 'btn-primary'
-    }
-  }
-}
-</script>
+<script lang="ts">
+import { defineComponent } from 'vue';
 
-<style>
-.btn {
-  padding: 10px 20px;
-  border: none;
-  border-radius: 5px;
-  color: white;
-  cursor: pointer;
-}
-.btn-primary {
-  background-color: blue;
-}
-</style>
+export const props = {
+  label: String,
+};
+
+export default defineComponent({ name: 'ThButton', props });
+</script>
